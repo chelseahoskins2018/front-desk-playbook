@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Front Desk Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --sage: #2d6a4f;
+    --sage-light: #52b788;
+    --sage-muted: #d8f3dc;
+    --blush: #f4845f;
+    --cream: #faf7f2;
+    --warm-white: #fff9f4;
+    --stone: #6b7280;
+    --border: #e5e0d8;
+    --card: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--ink);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-brand {
+    font-family: 'DM Mono', monospace;
+    color: var(--sage-light);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: white; }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: white;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(45,106,79,0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(244,132,95,0.15) 0%, transparent 60%);
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-light);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--sage-light);
+  }
+  .hero p {
+    color: rgba(255,255,255,0.65);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .section-desc {
+    color: var(--stone);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+
+  /* CHECK-IN GRID */
+  .checkin-section { margin-bottom: 4rem; }
+  .checkin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .checkin-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .checkin-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--sage);
+    transform: scaleY(0);
+    transition: transform 0.2s;
+    transform-origin: bottom;
+  }
+  .checkin-card:hover {
+    border-color: var(--sage-light);
+    box-shadow: 0 4px 20px rgba(45,106,79,0.1);
+    transform: translateY(-2px);
+  }
+  .checkin-card:hover::before { transform: scaleY(1); }
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--sage-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .card-icon.rec { background: #fef3c7; }
+  .card-body { flex: 1; }
+  .card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    margin-bottom: 0.3rem;
+  }
+  .card-tag.rec { color: #92400e; }
+  .card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.25rem;
+  }
+  .card-meta {
+    font-size: 0.78rem;
+    color: var(--stone);
+  }
+
+  /* ISSUE GRID */
+  .issue-section { margin-bottom: 4rem; }
+  .issue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+  .issue-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    transition: all 0.2s;
+  }
+  .issue-card:hover {
+    border-color: var(--blush);
+    box-shadow: 0 4px 20px rgba(244,132,95,0.12);
+    transform: translateY(-2px);
+  }
+  .issue-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: #fff1ee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .issue-body {}
+  .issue-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--blush);
+    margin-bottom: 0.3rem;
+  }
+  .issue-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .issue-desc {
+    font-size: 0.82rem;
+    color: var(--stone);
+    line-height: 1.5;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+  }
+  footer span { color: var(--sage-light); }
+
+  @media (max-width: 600px) {
+    .checkin-grid, .issue-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    main { padding: 2rem 1rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Front Desk Playbook</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#checkin">Check-In</a></li>
+    <li><a href="#issues">Issues</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Dispensary Operations · Knowledge Base</div>
+    <h1>Front Desk <em>Playbook</em></h1>
+    <p>Step-by-step procedures for every patient type, order scenario, and compliance situation. Find what you need — fast.</p>
+  </div>
+</div>
+
+<main>
+
+  <!-- CHECK-IN SECTION -->
+  <section class="checkin-section" id="checkin">
+    <div class="section-label">Check-In Procedures</div>
+    <div class="section-title">I need to check in a...</div>
+    <p class="section-desc">Select the patient or customer type that matches who is in front of you.</p>
+
+    <div class="checkin-grid">
+
+      <!-- MEDICAL -->
+      <a href="caregiver-oo.html" class="checkin-card">
+        <div class="card-icon">🩺</div>
+        <div class="card-body">
+          <div class="card-tag">Medical · Caregiver</div>
+          <div class="card-title">Medical Caregiver</div>
+          <div class="card-meta">With Online Order</div>
+        </div>
+      </a>
+
+      <a href="caregiver-noo.html" class="checkin-card">
+        <div class="card-icon">🩺</div>
+        <div class="card-body">
+          <div class="card-tag">Medical · Caregiver</div>
+          <div class="card-title">Medical Caregiver</div>
+          <div class="card-meta">No Online Order</div>
+        </div>
+      </a>
+
+      <a href="nmp-oo.html" class="checkin-card">
+        <div class="card-icon">🆕</div>
+        <div class="card-body">
+          <div class="card-tag">Medical · New Patient</div>
+          <div class="card-title">New Medical Patient</div>
+          <div class="card-meta">With Online Order</div>
+        </div>
+      </a>
+
+      <a href="nmp-noo.html" class="checkin-card">
+        <div class="card-icon">🆕</div>
+        <div class="card-body">
+          <div class="card-tag">Medical · New Patient</div>
+          <div class="card-title">New Medical Patient</div>
+          <div class="card-meta">No Online Order</div>
+        </div>
+      </a>
+
+      <a href="rmp-oo.html" class="checkin-card">
+        <div class="card-icon">🔄</div>
+        <div class="card-body">
+          <div class="card-tag">Medical · Returning</div>
+          <div class="card-title">Returning Medical Patient</div>
+          <div class="card-meta">With Online Order</div>
+        </div>
+      </a>
+
+      <a href="rmp-noo.html" class="checkin-card">
+        <div class="card-icon">🔄</div>
+        <div class="card-body">
+          <div class="card-tag">Medical · Returning</div>
+          <div class="card-title">Returning Medical Patient</div>
+          <div class="card-meta">No Online Order</div>
+        </div>
+      </a>
+
+      <a href="nrc-oo.html" class="checkin-card">
+        <div class="card-icon rec">🛍️</div>
+        <div class="card-body">
+          <div class="card-tag rec">Recreational · New</div>
+          <div class="card-title">New Recreational Customer</div>
+          <div class="card-meta">With Online Order</div>
+        </div>
+      </a>
+
+      <a href="nrc-noo.html" class="checkin-card">
+        <div class="card-icon rec">🛍️</div>
+        <div class="card-body">
+          <div class="card-tag rec">Recreational · New</div>
+          <div class="card-title">New Recreational Customer</div>
+          <div class="card-meta">No Online Order</div>
+        </div>
+      </a>
+
+      <a href="rrc-oo.html" class="checkin-card">
+        <div class="card-icon rec">🔁</div>
+        <div class="card-body">
+          <div class="card-tag rec">Recreational · Returning</div>
+          <div class="card-title">Returning Recreational Customer</div>
+          <div class="card-meta">With Online Order</div>
+        </div>
+      </a>
+
+      <a href="rrc-noo.html" class="checkin-card">
+        <div class="card-icon rec">🔁</div>
+        <div class="card-body">
+          <div class="card-tag rec">Recreational · Returning</div>
+          <div class="card-title">Returning Recreational Customer</div>
+          <div class="card-meta">No Online Order</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ISSUES SECTION -->
+  <section class="issue-section" id="issues">
+    <div class="section-label">Issue Resolution</div>
+    <div class="section-title">I need help with a...</div>
+    <p class="section-desc">Step-by-step guidance for compliance issues and edge cases.</p>
+
+    <div class="issue-grid">
+
+      <a href="address-mismatch.html" class="issue-card">
+        <div class="issue-icon">📍</div>
+        <div class="issue-body">
+          <div class="issue-tag">Supplement</div>
+          <div class="issue-title">Address Mismatch</div>
+          <div class="issue-desc">Resolving discrepancies between registry address and physical ID. Three scenario paths.</div>
+        </div>
+      </a>
+
+      <a href="problematic-id.html" class="issue-card">
+        <div class="issue-icon">🪪</div>
+        <div class="issue-body">
+          <div class="issue-tag">Supplement</div>
+          <div class="issue-title">Problematic ID Handling</div>
+          <div class="issue-desc">Expired, damaged, foreign, or mismatched IDs. Scripted responses for every scenario.</div>
+        </div>
+      </a>
+
+      <a href="expired-medical-card.html" class="issue-card">
+        <div class="issue-icon">📋</div>
+        <div class="issue-body">
+          <div class="issue-tag">Supplement</div>
+          <div class="issue-title">Expired Medical Card</div>
+          <div class="issue-desc">Expired Reg or Rec dates. Age-based decision matrix with compassionate service scripts.</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Built by <span>Chelsea Hoskins</span> · Dispensary Front Desk Knowledge Management System · 2025
+</footer>
+
+</body>
+</html>
